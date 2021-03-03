@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.procore.connector</groupId>
+	<artifactId>procore-connector-1</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>procore-connector-1</name>
+	    <packaging>war</packaging>
+	
+	<description>Procore Connector SMB</description>
+	<properties>
+		<java.version>1.8</java.version>
+        <azure.containerRegistry>procorewebhook</azure.containerRegistry>
+        <azure-webapp-maven-plugin.version>1.1.0</azure-webapp-maven-plugin.version>
+    
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-webflux</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			 <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>${azure-webapp-maven-plugin.version}</version>
+                <configuration>
+                    <authentication>
+                        <serverId>azure-auth</serverId>
+                    </authentication>
+                    <resourceGroup>webhookProcore-group</resourceGroup>
+                    <appName>webhookProcore-webapp</appName>
+                    <appServicePlanName>procore-plan</appServicePlanName>
+                    <javaVersion>1.8</javaVersion>
+                    <appSettings>
+                        <property>
+                            <name>spring.datasource.url</name>
+                            <value>jdbc:h2:mem:azure-test-db</value>
+                            <!--<value>jdbc:mysql://127.0.0.1:55738/localdb</value> -->
+                        </property>
+                        <property>
+                            <name>spring.datasource.username</name>
+                            <value>sa</value>
+                            <!--<value>azure</value> -->
+                        </property>
+                        <property>
+                            <name>spring.datasource.password</name>
+                            <value></value>
+                            <!--<value>replace-with-your-password</value> -->
+                        </property>
+                    </appSettings>
+              
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+	
+
+</project>
